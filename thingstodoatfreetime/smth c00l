@@ -1,0 +1,9 @@
+If you're on a Windows computer and the command prompt is not block open the command prompt and type “shutdown -i”
+this brings up a shutdown window.
+IF the computer your on is in a domain you should see all the computers in that domain in the drop down.
+Now select the computer and you can shut down, restart and some other stuff at your will.
+
+If your computer has Command Prompt disabled tho I suggest you learn the Windows scripting language VBS
+Its a VERY easy scripting language to learn.
+With VBS you can do funny but harmless stuff like make a text game or if your tower/laptop has a CD drive make it open and close repeatedly,
+stuff like that.
