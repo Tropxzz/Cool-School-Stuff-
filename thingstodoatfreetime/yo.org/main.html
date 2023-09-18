@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Yo.Org</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <style>
+    .button {
+      padding: 10px 20px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .button img {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>By Johnny (Yo.org)</h1>
+  <button id="breakout-btn" class="button">
+    <img src="breakout_image.png" alt="Breakout">
+    <span>Breakout</span>
+  </button>
+  <button id="rps-btn" class="button">
+    <img src="rps_image.png" alt="Rock Paper Scissors">
+    <span>Rock Paper Scissors</span>
+  </button>
+  <button id="pacman-btn" class="button">
+    <img src="pacman_image.png" alt="Pac-Man">
+    <span>Pac-Man</span>
+  </button>
+  <button id="chess-btn" class="button">
+    <img src="chess_image.png" alt="Chess">
+    <span>Chess</span>
+  </button>
+  <button id="wordsearch-btn" class="button">
+    <img src="wordsearch_image.png" alt="Word Search">
+    <span>Word Search</span>
+  </button>
+  
+  <button id="snake-btn" class="button">
+    <img src="snake_image.png" alt="Snake">
+    <span>Snake</span>
+  </button>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('rps-btn').addEventListener('click', function() {
+      window.open("rock_paper_scissors.html", "_blank");
+    });
+
+    document.getElementById('breakout-btn').addEventListener('click', function() {
+      window.open("breakout.html", "_blank");
+    });
+
+    document.getElementById('pacman-btn').addEventListener('click', function() {
+      window.open("pacman.html", "_blank");
+    });
+
+    document.getElementById('chess-btn').addEventListener('click', function() {
+      window.open("chess.html", "_blank");
+    });
+
+    document.getElementById('wordsearch-btn').addEventListener('click', function() {
+      window.open("wordsearch.html", "_blank");
+    });
+
+    document.getElementById('snake-btn').addEventListener('click', function() {
+      window.open("snake.html", "_blank");
+    });
+  </script>
+</body>
+</html>
