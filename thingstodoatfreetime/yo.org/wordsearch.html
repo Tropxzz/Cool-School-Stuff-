@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wordscapes Search</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      margin: 20px auto;
+    }
+
+    td {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      border: 1px solid #ccc;
+      user-select: none;
+    }
+
+    .selected {
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <table id="wordSearchGrid"></table>
+  <div id="wordList"></div>
+
+  <script>
+    var words = ['WORD', 'SEARCH', 'GAME']; // List of words to find
+    var foundWords = []; // Array to store found words
+
+    // Function to generate a random letter
+    function generateRandomLetter() {
+      var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      return letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
+    // Function to generate the Word Search grid
+    function generateWordSearchGrid() {
+      var table = document.getElementById('wordSearchGrid');
+
+      for (var i = 0; i < 9; i++) {
+        var row = document.createElement('tr');
+        for (var j = 0; j < 9; j++) {
+          var cell = document.createElement('td');
+          cell.textContent = generateRandomLetter();
+          row.appendChild(cell);
+        }
+        table.appendChild(row);
+      }
+    }
+
+    // Function to check if a word is found
+    function checkWord(word) {
+      return foundWords.includes(word);
+    }
+
+    // Function to handle cell click event
+    function handleCellClick() {
+      this.classList.toggle('selected');
+
+      // Check for word matches
+      var selectedLetters = Array.from(document.getElementsByClassName('selected')).map(function(cell) {
+        return cell.textContent;
+      });
+      var selectedWord = selectedLetters.join('');
+
+      if (checkWord(selectedWord)) {
+        console.log('Word found: ' + selectedWord);
+        foundWords.push(selectedWord);
+        document.getElementById('wordList').textContent = foundWords.join(', ');
+        
+        // Clear selection after finding a word
+        var selectedCells = document.getElementsByClassName('selected');
+        while (selectedCells.length > 0) {
+          selectedCells[0].classList.remove('selected');
+        }
+      }
+    }
+
+    // Add event listener to allow selecting letters
+    var cells = document.getElementsByTagName('td');
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].addEventListener('click', handleCellClick);
+    }
+
+    // Generate the Word Search grid
+    generateWordSearchGrid();
+  </script>
+</body>
+</html>

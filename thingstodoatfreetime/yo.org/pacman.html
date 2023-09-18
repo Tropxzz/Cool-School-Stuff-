@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pac-Man</title>
+  <style>
+    canvas {
+      border: 1px solid #000;
+      background-color: #000;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="pacmanCanvas" width="400" height="400"></canvas>
+  <div id="score"></div>
+
+  <script>
+    var canvas = document.getElementById("pacmanCanvas");
+    var ctx = canvas.getContext("2d");
+
+    var pacMan = {
+      x: 200,
+      y: 200,
+      radius: 20,
+      mouthAngle: 0,
+      speed: 2
+    };
+
+    var ghosts = [
+      { x: 100, y: 100, radius: 20, speed: 1 },
+      { x: 300, y: 300, radius: 20, speed: 1 },
+      // Add more ghosts as needed
+    ];
+
+var orbs = [
+  { x: 80, y: 150, radius: 5 },
+  { x: 320, y: 250, radius: 5 },
+  { x: 200, y: 100, radius: 5 },
+  { x: 150, y: 300, radius: 5 },
+  // Add more orbs as needed
+];
+
+    var direction = "right";
+    var score = 0;
+
+    function drawPacMan() {
+      ctx.beginPath();
+      ctx.arc(
+        pacMan.x,
+        pacMan.y,
+        pacMan.radius,
+        pacMan.mouthAngle * Math.PI,
+        (2 - pacMan.mouthAngle) * Math.PI
+      );
+      ctx.lineTo(pacMan.x, pacMan.y);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawGhost(ghost) {
+      ctx.beginPath();
+      ctx.arc(ghost.x, ghost.y, ghost.radius, 0, 2 * Math.PI);
+      ctx.fillStyle = "red";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawOrb(orb) {
+      ctx.beginPath();
+      ctx.arc(orb.x, orb.y, orb.radius, 0, 2 * Math.PI);
+      ctx.fillStyle = "white";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawScore() {
+      document.getElementById("score").textContent = "Points: " + score;
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+function updatePacMan() {
+  if (direction === "right" && pacMan.x + pacMan.radius < canvas.width) {
+    pacMan.x += pacMan.speed;
+  } else if (direction === "left" && pacMan.x - pacMan.radius > 0) {
+    pacMan.x -= pacMan.speed;
+  } else if (direction === "up" && pacMan.y - pacMan.radius > 0) {
+    pacMan.y -= pacMan.speed;
+  } else if (direction === "down" && pacMan.y + pacMan.radius < canvas.height) {
+    pacMan.y += pacMan.speed;
+  } else {
+    // Pac-Man touched the wall
+    gameOver();
+  }
+}
+
+function updateGhosts() {
+  for (var i = 0; i < ghosts.length; i++) {
+    var ghost = ghosts[i];
+    ghost.x += Math.random() * ghost.speed * 2 - ghost.speed;
+    ghost.y += Math.random() * ghost.speed * 2 - ghost.speed;
+
+    if (ghost.x + ghost.radius > canvas.width || ghost.x - ghost.radius < 0) {
+      // Ghost hit the left or right wall, change horizontal direction
+      ghost.speed *= -1;
+    }
+    if (ghost.y + ghost.radius > canvas.height || ghost.y - ghost.radius < 0) {
+      // Ghost hit the top or bottom wall, change vertical direction
+      ghost.speed *= -1;
+    }
+
+    if (
+      pacMan.x + pacMan.radius > ghost.x - ghost.radius &&
+      pacMan.x - pacMan.radius < ghost.x + ghost.radius &&
+      pacMan.y + pacMan.radius > ghost.y - ghost.radius &&
+      pacMan.y - pacMan.radius < ghost.y + ghost.radius
+    ) {
+      // Pac-Man collided with a ghost
+      gameOver();
+    }
+  }
+}
+
+
+    function updateOrbs() {
+      for (var i = 0; i < orbs.length; i++) {
+        var orb = orbs[i];
+        if (
+          pacMan.x + pacMan.radius > orb.x - orb.radius &&
+          pacMan.x - pacMan.radius < orb.x + orb.radius &&
+          pacMan.y + pacMan.radius > orb.y - orb.radius &&
+          pacMan.y - pacMan.radius < orb.y + orb.radius
+        ) {
+          // Pac-Man collected an orb
+          orbs.splice(i, 1);
+          score++;
+        }
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === "ArrowRight") {
+        direction = "right";
+      } else if (event.key === "ArrowLeft") {
+        direction = "left";
+      } else if (event.key === "ArrowUp") {
+        direction = "up";
+      } else if (event.key === "ArrowDown") {
+        direction = "down";
+      }
+    }
+
+    function gameOver() {
+      alert("Game Over!");
+      resetGame();
+    }
+
+    function resetGame() {
+      pacMan.x = 200;
+      pacMan.y = 200;
+      score = 0;
+      orbs = [
+        { x: 80, y: 150, radius: 5 },
+        { x: 320, y: 250, radius: 5 },
+        // Add more orbs as needed
+      ];
+    }
+
+    function gameLoop() {
+      clearCanvas();
+      updatePacMan();
+      updateGhosts();
+      updateOrbs();
+      drawPacMan();
+      ghosts.forEach(drawGhost);
+      orbs.forEach(drawOrb);
+      drawScore();
+      requestAnimationFrame(gameLoop);
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    gameLoop();
+  </script>
+</body>
+</html>
