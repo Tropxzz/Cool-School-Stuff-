@@ -1,4 +1,4 @@
-var wpm = parseInt(prompt("How many WPM do you want the bot to type?"));
+var wpm = parseInt(prompt("How much Crypto do u want??"));
 
 if (isNaN(wpm)) {
   alert("Please enter a valid number. Try again, please.");
